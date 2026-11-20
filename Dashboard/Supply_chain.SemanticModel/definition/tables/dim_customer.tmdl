@@ -1,0 +1,75 @@
+table dim_customer
+	lineageTag: 90b3c2d7-af44-41e6-a832-fe9afeced608
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 1b4df015-be26-4f66-ac4d-90cd8828ca8d
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: string
+		lineageTag: e45de94e-6ce5-4715-96eb-44a695352a63
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_name
+		dataType: string
+		lineageTag: cddeffde-1236-4a6e-a176-3308268216f4
+		summarizeBy: none
+		sourceColumn: customer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 83733d02-c777-4d2d-bfb2-7588d6519db6
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column channel_type
+		dataType: string
+		lineageTag: c19a0320-0fbf-4191-b471-f664710108c3
+		summarizeBy: none
+		sourceColumn: channel_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column size
+		dataType: string
+		lineageTag: b2614ca5-e0a3-46be-803d-347fe2efaba9
+		summarizeBy: none
+		sourceColumn: size
+
+		annotation SummarizationSetBy = Automatic
+
+	column annual_volume_usd
+		dataType: int64
+		formatString: 0
+		lineageTag: 8d0a7767-b614-4a53-93fb-ac41d2800f6e
+		summarizeBy: sum
+		sourceColumn: annual_volume_usd
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customer = m
+		mode: import
+		source =
+				let
+				  Source = Dataset,
+				  Navigation = Source{[#"Folder Path" = Folder_Path, Name = "dim_customer.csv"]}[Content],
+				  #"Imported CSV" = Csv.Document(Navigation, [Delimiter = ",", Columns = 7, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"customer_id", Int64.Type}, {"customer_key", type text}, {"customer_name", type text}, {"country", type text}, {"channel_type", type text}, {"size", type text}, {"annual_volume_usd", Int64.Type}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

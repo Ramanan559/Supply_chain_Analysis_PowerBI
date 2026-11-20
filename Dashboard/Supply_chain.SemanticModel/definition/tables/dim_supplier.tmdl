@@ -1,0 +1,84 @@
+table dim_supplier
+	lineageTag: 361d941c-c401-42aa-9d01-84075038226f
+
+	column supplier_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b6a1be6b-7db2-4e89-b55f-a1d03900c5c2
+		summarizeBy: none
+		sourceColumn: supplier_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column supplier_key
+		dataType: string
+		lineageTag: 5645e509-494b-4638-9518-3675282e5c1e
+		summarizeBy: none
+		sourceColumn: supplier_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column supplier_name
+		dataType: string
+		lineageTag: ed80daad-856f-49f5-904c-5f23105e5db6
+		summarizeBy: none
+		sourceColumn: supplier_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: cb1d1e1f-25d1-485f-b94d-4a29ee8aaae8
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 15832aca-0466-4c9b-8e37-7fba23d91d2c
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column specialty
+		dataType: string
+		lineageTag: 9979cecc-96c8-48d6-8c27-27413d7ff324
+		summarizeBy: none
+		sourceColumn: specialty
+
+		annotation SummarizationSetBy = Automatic
+
+	column tier
+		dataType: string
+		lineageTag: 7309f125-6a98-4c3b-a684-689a27cd269c
+		summarizeBy: none
+		sourceColumn: tier
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_quality_score
+		dataType: double
+		lineageTag: 9b18b79c-5a4a-43c4-be88-6ab535999011
+		summarizeBy: none
+		sourceColumn: avg_quality_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_supplier = m
+		mode: import
+		source =
+				let
+				  Source = Dataset,
+				  Navigation = Source{[#"Folder Path" = Folder_Path, Name = "dim_supplier.csv"]}[Content],
+				  #"Imported CSV" = Csv.Document(Navigation, [Delimiter = ",", Columns = 8, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"supplier_id", Int64.Type}, {"supplier_key", type text}, {"supplier_name", type text}, {"country", type text}, {"city", type text}, {"specialty", type text}, {"tier", type text}, {"avg_quality_score", type number}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

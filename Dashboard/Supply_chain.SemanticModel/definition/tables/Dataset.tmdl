@@ -1,0 +1,79 @@
+table Dataset
+	lineageTag: 33e75924-67c6-4f77-8599-46e09070c1c9
+
+	column Name
+		dataType: string
+		lineageTag: e19e7354-92af-461d-b170-162e7f3928e0
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Extension
+		dataType: string
+		lineageTag: a4179343-f78a-4016-81a7-0e1af03eb296
+		summarizeBy: none
+		sourceColumn: Extension
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date accessed'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: eec73366-96d9-47ec-b8de-769b0d2d3e9f
+		summarizeBy: none
+		sourceColumn: Date accessed
+
+		variation Variation
+			isDefault
+			relationship: 73526354-cd76-46cf-80e8-8c62577ae42c
+			defaultHierarchy: LocalDateTable_5baffcf4-fe83-4874-a860-ac93e54c9b5f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date modified'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4f4f02af-7842-40b3-a899-17539d213a8f
+		summarizeBy: none
+		sourceColumn: Date modified
+
+		variation Variation
+			isDefault
+			relationship: 5e7cbbd4-71b9-4a36-95d6-4c742e4438b1
+			defaultHierarchy: LocalDateTable_4f4c1d50-3899-4b11-b7f3-18bc6d3064d9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date created'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 39e49b22-0eb8-4713-a93e-584e9c0ce4e1
+		summarizeBy: none
+		sourceColumn: Date created
+
+		variation Variation
+			isDefault
+			relationship: a66677e0-5d6a-43c2-8e14-f31f98970f17
+			defaultHierarchy: LocalDateTable_d26133f8-4130-4781-9ba1-05344c9d181b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Folder Path'
+		dataType: string
+		lineageTag: 32455ce5-fde4-4142-aef2-4031725a1e96
+		summarizeBy: none
+		sourceColumn: Folder Path
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dataset = m
+		mode: import
+		source =
+				let
+				  Source = Folder.Files(Folder_Path)
+				in
+				  Source
+
+	annotation PBI_ResultType = Table
+

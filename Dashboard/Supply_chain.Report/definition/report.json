@@ -1,0 +1,108 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "Fluent2-CY26SU10",
+      "reportVersionAtImport": {
+        "visual": "2.14.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "ccustom_theme118559304174689462.json",
+      "reportVersionAtImport": {
+        "visual": "2.14.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "RegisteredResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "true"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "Fluent2-CY26SU10",
+          "path": "BaseThemes/Fluent2-CY26SU10.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "ccustom_theme118559304174689462.json",
+          "path": "ccustom_theme118559304174689462.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "Copy_of_20260111_0215_Image_Ge5539660864103287.png",
+          "path": "Copy_of_20260111_0215_Image_Ge5539660864103287.png",
+          "type": "Image"
+        },
+        {
+          "name": "Copy_of_20260111_0215_Image_Ge7762384295039942.png",
+          "path": "Copy_of_20260111_0215_Image_Ge7762384295039942.png",
+          "type": "Image"
+        },
+        {
+          "name": "Copy_of_20260111_0215_Image_Ge7899482331141475.png",
+          "path": "Copy_of_20260111_0215_Image_Ge7899482331141475.png",
+          "type": "Image"
+        },
+        {
+          "name": "Copy_of_20260111_0351_Image_Ge8393519708451666.png",
+          "path": "Copy_of_20260111_0351_Image_Ge8393519708451666.png",
+          "type": "Image"
+        },
+        {
+          "name": "pngwing.com_(38)783629739758645.png",
+          "path": "pngwing.com_(38)783629739758645.png",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true
+  }
+}

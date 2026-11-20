@@ -1,0 +1,83 @@
+table dim_facility
+	lineageTag: a2a90f8d-9a29-41f7-82fc-a2b4853daf7d
+
+	column facility_id
+		dataType: int64
+		formatString: 0
+		lineageTag: cd1cb4ab-d5f3-4c06-ad43-0b4cab6a12b3
+		summarizeBy: none
+		sourceColumn: facility_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column facility_key
+		dataType: string
+		lineageTag: 8295d139-0735-4b8b-ba87-adb3b5f6347c
+		summarizeBy: none
+		sourceColumn: facility_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column facility_name
+		dataType: string
+		lineageTag: cd634cc4-36ea-481a-9aad-bb390351f65c
+		summarizeBy: none
+		sourceColumn: facility_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 978f1ffd-b265-4c22-9da6-9e11388f5bd6
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: bda9873d-3921-43ab-80e8-59018daba269
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column facility_type
+		dataType: string
+		lineageTag: 8fa98aca-4251-4a76-b790-0f9fc8d3d04f
+		summarizeBy: none
+		sourceColumn: facility_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column specialization
+		dataType: string
+		lineageTag: 0e1975dd-11f9-4109-a2eb-25138f9d74d4
+		summarizeBy: none
+		sourceColumn: specialization
+
+		annotation SummarizationSetBy = Automatic
+
+	column annual_capacity
+		dataType: int64
+		formatString: 0
+		lineageTag: 928a7cdc-c609-470a-a58e-18d4505bcbae
+		summarizeBy: sum
+		sourceColumn: annual_capacity
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_facility = m
+		mode: import
+		source =
+				let
+				  Source = Dataset,
+				  Navigation = Source{[#"Folder Path" = Folder_Path, Name = "dim_facility.csv"]}[Content],
+				  #"Imported CSV" = Csv.Document(Navigation, [Delimiter = ",", Columns = 8, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"facility_id", Int64.Type}, {"facility_key", type text}, {"facility_name", type text}, {"country", type text}, {"city", type text}, {"facility_type", type text}, {"specialization", type text}, {"annual_capacity", Int64.Type}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

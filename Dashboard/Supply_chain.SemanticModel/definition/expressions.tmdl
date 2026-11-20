@@ -1,0 +1,5 @@
+expression Folder_Path = "R:\Data\Dataset\" meta [IsParameterQuery = true, IsParameterQueryRequired = false, Type = type any]
+	lineageTag: 3bcee207-d9dc-44ed-a422-084a5c7a8d38
+
+	annotation PBI_ResultType = Text
+

@@ -1,0 +1,149 @@
+table fact_sales
+	lineageTag: 242778eb-f87c-434b-a9f2-388f64e86422
+
+	column sales_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b4a3a8c8-d67a-4ca8-8372-9260e359e6e0
+		summarizeBy: sum
+		sourceColumn: sales_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 5943de1f-be74-4331-b375-66665141af0f
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: f3b96b0c-d658-4df2-ae6a-41bd25de8e13
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 720b0ec3-8beb-4d84-8fcb-7ce589e1e573
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity_sold
+		dataType: int64
+		formatString: 0
+		lineageTag: ecd0cc71-5804-41da-afbf-1a3bc1204234
+		summarizeBy: sum
+		sourceColumn: quantity_sold
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price
+		dataType: double
+		lineageTag: fe7422c2-4cb2-4701-a8c7-01a8605d506b
+		summarizeBy: sum
+		sourceColumn: unit_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column discount_pct
+		dataType: int64
+		formatString: 0
+		lineageTag: aea6a6cd-9e9d-4d30-a30c-dd28eed9a530
+		summarizeBy: sum
+		sourceColumn: discount_pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column discount_amount
+		dataType: double
+		lineageTag: 95077621-a0e0-4c8f-8ba1-7f2e1c83e51b
+		summarizeBy: sum
+		sourceColumn: discount_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gross_revenue
+		dataType: double
+		lineageTag: 9d043e5d-95b6-458b-8a1c-3ece13b1831a
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column net_revenue
+		dataType: double
+		lineageTag: 5cb92b83-ddfb-464c-a52b-e2490ca4bf61
+		summarizeBy: sum
+		sourceColumn: net_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_cost
+		dataType: double
+		lineageTag: 7110e99a-ad74-464c-9062-95a1e3e673b6
+		summarizeBy: sum
+		sourceColumn: total_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column profit
+		dataType: double
+		lineageTag: ba789a53-786a-4532-be82-cdbe789517fe
+		summarizeBy: sum
+		sourceColumn: profit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column profit_margin_pct
+		dataType: double
+		lineageTag: bd5cf2ff-c073-415c-b15a-f61d750b750e
+		summarizeBy: sum
+		sourceColumn: profit_margin_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column order_number
+		dataType: string
+		lineageTag: 2f36768f-4cf0-409a-b109-3a8047b87ebf
+		summarizeBy: none
+		sourceColumn: order_number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_sales = m
+		mode: import
+		source =
+				let
+				  Source = Dataset,
+				  Navigation = Source{[#"Folder Path" = Folder_Path, Name = "fact_sales.csv"]}[Content],
+				  #"Imported CSV" = Csv.Document(Navigation, [Delimiter = ",", Columns = 14, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"sales_id", Int64.Type}, {"date_key", Int64.Type}, {"product_id", Int64.Type}, {"customer_id", Int64.Type}, {"quantity_sold", Int64.Type}, {"unit_price", type number}, {"discount_pct", Int64.Type}, {"discount_amount", type number}, {"gross_revenue", type number}, {"net_revenue", type number}, {"total_cost", type number}, {"profit", type number}, {"profit_margin_pct", type number}, {"order_number", type text}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

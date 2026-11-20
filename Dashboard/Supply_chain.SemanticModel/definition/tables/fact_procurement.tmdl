@@ -1,0 +1,118 @@
+table fact_procurement
+	lineageTag: 26c32085-082f-4d0d-8099-90213a3f6023
+
+	column procurement_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 544f0fcf-32c9-4ce1-b6c3-52d055bf17e9
+		summarizeBy: sum
+		sourceColumn: procurement_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: deaebe13-7210-4458-8c3c-0efd70532dd5
+		summarizeBy: sum
+		sourceColumn: order_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 28f73296-c254-4b09-a8f0-045c0b7c8c9b
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column supplier_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 9216aaa4-070e-472c-8065-f0dfb4b07209
+		summarizeBy: none
+		sourceColumn: supplier_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 0b0f5031-3ecb-4ac3-90e0-d0e50345104e
+		summarizeBy: sum
+		sourceColumn: order_quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_cost
+		dataType: double
+		lineageTag: c330f824-df15-4c15-ae18-7d598a2d3106
+		summarizeBy: sum
+		sourceColumn: unit_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_cost
+		dataType: double
+		lineageTag: 372fdc6e-afac-4ceb-ad5f-63175278977b
+		summarizeBy: sum
+		sourceColumn: total_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column lead_time_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 9a6fa8c4-cf3a-4654-bdd1-5dff0db26552
+		summarizeBy: sum
+		sourceColumn: lead_time_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: dabcf244-318a-455c-8dc6-650a683e472a
+		summarizeBy: none
+		sourceColumn: delivery_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column quality_score
+		dataType: double
+		lineageTag: 68afada4-9421-47c4-915a-298e5d9247ab
+		summarizeBy: sum
+		sourceColumn: quality_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column po_number
+		dataType: string
+		lineageTag: 4b888b48-69b9-480c-912d-f06b9c5b6305
+		summarizeBy: none
+		sourceColumn: po_number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_procurement = m
+		mode: import
+		source =
+				let
+				  Source = Dataset,
+				  Navigation = Source{[#"Folder Path" = Folder_Path, Name = "fact_procurement.csv"]}[Content],
+				  #"Imported CSV" = Csv.Document(Navigation, [Delimiter = ",", Columns = 11, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"procurement_id", Int64.Type}, {"order_date_key", Int64.Type}, {"product_id", Int64.Type}, {"supplier_id", Int64.Type}, {"order_quantity", Int64.Type}, {"unit_cost", type number}, {"total_cost", type number}, {"lead_time_days", Int64.Type}, {"delivery_date_key", Int64.Type}, {"quality_score", type number}, {"po_number", type text}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

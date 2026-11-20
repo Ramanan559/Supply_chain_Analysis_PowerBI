@@ -1,0 +1,89 @@
+table MeasureTable
+	lineageTag: e2d4565b-b675-465b-9ba0-1d319a5edb7d
+
+	measure Total_Revenue = SUM(fact_sales[net_revenue])
+		lineageTag: 9157dbd4-b17b-40a5-bb40-bdfe947a5e43
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_Profit = SUM(fact_sales[profit])
+		formatString: 0
+		lineageTag: e13045d7-f369-4ef7-b575-ba4b510b8848
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Profit_Margin = ```
+			DIVIDE([Total_Profit],[Total_Revenue]) 
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ba2cefee-d991-4a2b-ab1e-6222e19d924b
+
+	measure Total_sales_quantity = SUM(fact_sales[quantity_sold])
+		formatString: 0
+		lineageTag: f574408f-4091-4427-8d1c-b21cdcfd72c3
+
+	measure Total_sales_cost = SUM(fact_procurement[total_cost])
+		lineageTag: 58716b74-30c6-4ece-aeee-17713fd6b52c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Inventory_value = SUM(fact_inventory[stock_level])
+		formatString: 0
+		lineageTag: 418d146c-0a56-4b6a-9f3e-0a92463bca1a
+
+	measure Avg_LeadTime = AVERAGE(fact_procurement[lead_time_days])
+		lineageTag: fd34bc22-56f4-48f8-bf00-28007cbd4662
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_shipment = DISTINCTCOUNT(fact_shipment[shipment_id])
+		formatString: 0
+		lineageTag: c9f8f0e3-16f7-4520-9650-0aa0d0066e83
+
+	measure Prefect_order = ```
+			
+			var Prefect_order = 
+			CALCULATE([Total_shipment], fact_shipment[status] = "Delivered", 
+			fact_production[defect_rate_pct] < 1)
+			return DIVIDE(Prefect_order, [Total_shipment])
+			```
+		formatString: 0%;-0%;0%
+		lineageTag: 62fc8f7d-4542-41ca-9403-f7e0d4201044
+
+	measure Order_QTY = SUM(fact_procurement[order_quantity])
+		formatString: 0
+		lineageTag: f30390eb-1b6e-4498-b634-08c1f0ed4930
+
+	measure Total_delivered_QTY = CALCULATE([Total_sales_quantity],fact_shipment[status])
+		formatString: 0
+		lineageTag: 03b40f3a-e221-41c9-a5d5-461f86a81bb4
+
+	measure Total_delay = CALCULATE([Total_shipment], fact_shipment[status] = "Delayed")
+		formatString: 0
+		lineageTag: 3f66d726-246f-45a0-a6ec-f3e939bfe796
+
+	measure Defect = SUM(fact_production[defective_units])
+		formatString: 0
+		lineageTag: 006622fe-78ba-450c-b1df-d582f8cd8605
+
+	measure Safety_stock = SUM(fact_inventory[safety_stock_level])
+		formatString: 0
+		lineageTag: 6cba1c10-096b-44b9-93a1-defd2b9b0593
+
+	column Column
+		formatString: 0
+		lineageTag: 5d206b42-7baa-4d41-8268-a2592b8a8807
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition MeasureTable = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 3fc8649b77a94d23a3069a4dd778a643
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+
